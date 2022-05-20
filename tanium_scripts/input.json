@@ -1,0 +1,17 @@
+{
+  "Name": "Tanium",
+  "Author": "Ian Hands - ian.hands@tanium.com",
+  "Logo": "<img src=\"https://www.tanium.com/wp-content/themes/main/lib/images/header-logo.svg\">",
+  "Description": "WIP Sentinel bundle for Tanium",
+  "WorkbookDescription": "Tanium Workbook",
+  "Workbooks": [
+    "Workbooks/TaniumDemoWorkbook.json"
+  ],
+  "Playbooks": [
+    "Playbooks/Tanium-CollectComplyFindings/azuredeploy.json",
+    "Playbooks/Tanium-QuarantineHosts/azuredeploy.json"
+  ],
+  "BasePath": "http://localhost:8000",
+  "Version": "1.0.0",
+  "Metadata": "SolutionMetadata.json"
+}
