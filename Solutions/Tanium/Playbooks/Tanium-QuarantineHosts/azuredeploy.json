@@ -2,26 +2,20 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "workflows_TaniumQuarantineHosts_name": {
-      "defaultValue": "TaniumQuarantineHosts",
-      "type": "String"
-    },
-    "connections_azuresentinel_externalid": {
-      "defaultValue": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/resourceGroups/RG_1/providers/Microsoft.Web/connections/azuresentinel",
-      "type": "String"
+    "PlaybookName": {
+      "defaultValue": "QuarantineHostsTanium",
+      "type": "string"
     }
   },
-  "variables": {},
+  "variables": {
+    "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
+  },
   "resources": [
     {
       "type": "Microsoft.Logic/workflows",
       "apiVersion": "2017-07-01",
-      "name": "[parameters('workflows_TaniumQuarantineHosts_name')]",
-      "location": "westus",
-      "tags": {
-        "purpose": "playbook_runner",
-        "team": "gto"
-      },
+      "name": "[variables('AzureSentinelConnectionName')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "state": "Enabled",
         "definition": {
@@ -95,7 +89,7 @@
               "inputs": {
                 "body": "@triggerBody()",
                 "headers": {
-                  "Authorization": "FOO"
+                  "Authorization": "__CHANGE_ME__"
                 },
                 "method": "POST",
                 "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"

@@ -122,7 +122,7 @@
           {
             "name": "playbook1",
             "type": "Microsoft.Common.Section",
-            "label": "CollectComplyFindingsIMPORT",
+            "label": "CollectComplyFindingsTanium",
             "elements": [
               {
                 "name": "playbook1-text",
@@ -135,7 +135,7 @@
                 "name": "playbook1-PlaybookName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Playbook Name",
-                "defaultValue": "CollectComplyFindingsIMPORT",
+                "defaultValue": "CollectComplyFindingsTanium",
                 "toolTip": "Resource name for the logic app playbook.  No spaces are allowed",
                 "constraints": {
                   "required": true,
@@ -148,7 +148,7 @@
           {
             "name": "playbook2",
             "type": "Microsoft.Common.Section",
-            "label": null,
+            "label": "QuarantineHostsTanium",
             "elements": [
               {
                 "name": "playbook2-text",
@@ -158,27 +158,15 @@
                 }
               },
               {
-                "name": "playbook2-workflows_TaniumQuarantineHosts_name",
+                "name": "playbook2-PlaybookName",
                 "type": "Microsoft.Common.TextBox",
-                "label": "workflows_ Tanium Quarantine Hosts_name",
-                "defaultValue": "TaniumQuarantineHosts",
-                "toolTip": "Please enter workflows_ Tanium Quarantine Hosts_name",
+                "label": "Playbook Name",
+                "defaultValue": "QuarantineHostsTanium",
+                "toolTip": "Resource name for the logic app playbook.  No spaces are allowed",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the workflows_ Tanium Quarantine Hosts_name"
-                }
-              },
-              {
-                "name": "playbook2-connections_azuresentinel_externalid",
-                "type": "Microsoft.Common.TextBox",
-                "label": "connections_azuresentinel_externalid",
-                "defaultValue": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/resourceGroups/RG_1/providers/Microsoft.Web/connections/azuresentinel",
-                "toolTip": "Please enter connections_azuresentinel_externalid",
-                "constraints": {
-                  "required": true,
-                  "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the connections_azuresentinel_externalid"
+                  "validationMessage": "Please enter a playbook resource name"
                 }
               }
             ]
@@ -192,8 +180,7 @@
       "workspace": "[basics('workspace')]",
       "workbook1-name": "[steps('workbooks').workbook1.workbook1-name]",
       "playbook1-PlaybookName": "[steps('playbooks').playbook1.playbook1-PlaybookName]",
-      "playbook2-workflows_TaniumQuarantineHosts_name": "[steps('playbooks').playbook2.playbook2-workflows_TaniumQuarantineHosts_name]",
-      "playbook2-connections_azuresentinel_externalid": "[steps('playbooks').playbook2.playbook2-connections_azuresentinel_externalid]"
+      "playbook2-PlaybookName": "[steps('playbooks').playbook2.playbook2-PlaybookName]"
     }
   }
 }

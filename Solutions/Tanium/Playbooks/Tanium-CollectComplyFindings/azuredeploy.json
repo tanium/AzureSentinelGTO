@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "PlaybookName": {
-      "defaultValue": "CollectComplyFindingsIMPORT",
+      "defaultValue": "CollectComplyFindingsTanium",
       "type": "string"
     }
   },
@@ -16,10 +16,6 @@
       "apiVersion": "2017-07-01",
       "name": "[variables('AzureSentinelConnectionName')]",
       "location": "[resourceGroup().location]",
-      "tags": {
-        "purpose": "playbook_runner",
-        "team": "gto"
-      },
       "properties": {
         "state": "Enabled",
         "definition": {
@@ -93,7 +89,7 @@
               "inputs": {
                 "body": "@triggerBody()",
                 "headers": {
-                  "Authorization": "FOO"
+                  "Authorization": "__CHANGE_ME__"
                 },
                 "method": "POST",
                 "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_comply_findings&trigger=manual_click"

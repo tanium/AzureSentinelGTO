@@ -52,22 +52,20 @@
       }
     },
     "playbook1-PlaybookName": {
-      "defaultValue": "CollectComplyFindingsIMPORT",
+      "defaultValue": "CollectComplyFindingsTanium",
       "type": "string",
       "minLength": 1,
       "metadata": {
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
-    "playbook2-workflows_TaniumQuarantineHosts_name": {
-      "defaultValue": "TaniumQuarantineHosts",
+    "playbook2-PlaybookName": {
+      "defaultValue": "QuarantineHostsTanium",
       "type": "string",
-      "minLength": 1
-    },
-    "playbook2-connections_azuresentinel_externalid": {
-      "defaultValue": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/resourceGroups/RG_1/providers/Microsoft.Web/connections/azuresentinel",
-      "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "metadata": {
+        "description": "Resource name for the logic app playbook.  No spaces are allowed"
+      }
     }
   },
   "variables": {
