@@ -59,6 +59,16 @@
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
+    "playbook1-ForwarderAPIToken": {
+      "defaultValue": "__Change_Me__",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook1-ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string",
+      "minLength": 1
+    },
     "playbook2-PlaybookName": {
       "defaultValue": "QuarantineHostsTanium",
       "type": "string",
@@ -66,19 +76,37 @@
       "metadata": {
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
+    },
+    "playbook2-ForwarderAPIToken": {
+      "defaultValue": "__Change_Me__",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook2-ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string",
+      "minLength": 1
+    },
+    "analytic1-id": {
+      "type": "string",
+      "defaultValue": "[newGuid()]",
+      "minLength": 1,
+      "metadata": {
+        "description": "Unique id for the scheduled alert rule"
+      }
     }
   },
   "variables": {
-    "TaniumDemoWorkbook_workbook": "TaniumDemoWorkbook_workbook",
-    "_TaniumDemoWorkbook_workbook": "[variables('TaniumDemoWorkbook_workbook')]",
+    "TaniumWorkbook_workbook": "TaniumWorkbook_workbook",
+    "_TaniumWorkbook_workbook": "[variables('TaniumWorkbook_workbook')]",
     "workbook-source": "[concat(resourceGroup().id, '/providers/Microsoft.OperationalInsights/workspaces/',parameters('workspace'))]",
     "_workbook-source": "[variables('workbook-source')]",
     "playbook1-Tanium-CollectComplyFindings": "playbook1-Tanium-CollectComplyFindings",
     "_playbook1-Tanium-CollectComplyFindings": "[variables('playbook1-Tanium-CollectComplyFindings')]",
-    "playbook1-AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('playbook1-PlaybookName'))]",
     "playbook2-Tanium-QuarantineHosts": "playbook2-Tanium-QuarantineHosts",
     "_playbook2-Tanium-QuarantineHosts": "[variables('playbook2-Tanium-QuarantineHosts')]",
-    "playbook2-AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('playbook2-PlaybookName'))]",
+    "TaniumThreatResponseAlerts_AnalyticalRules": "TaniumThreatResponseAlerts_AnalyticalRules",
+    "_TaniumThreatResponseAlerts_AnalyticalRules": "[variables('TaniumThreatResponseAlerts_AnalyticalRules')]",
     "sourceId": "taniuminc1646329360287.azure-sentinel-solution-tanium",
     "_sourceId": "[variables('sourceId')]"
   },
@@ -100,7 +128,7 @@
     {
       "type": "Microsoft.Logic/workflows",
       "apiVersion": "2017-07-01",
-      "name": "[variables('playbook1-AzureSentinelConnectionName')]",
+      "name": "[parameters('playbook1-PlaybookName')]",
       "location": "[parameters('workspace-location')]",
       "properties": {
         "state": "Enabled",
@@ -173,7 +201,7 @@
               "inputs": {
                 "body": "@triggerBody()",
                 "headers": {
-                  "Authorization": "__CHANGE_ME__"
+                  "Authorization": "[parameters('playbook1-ForwarderAPIToken')]"
                 },
                 "method": "POST",
                 "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_comply_findings&trigger=manual_click"
@@ -185,9 +213,9 @@
           "$connections": {
             "value": {
               "azuresentinel": {
-                "connectionId": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/resourceGroups/RG_1/providers/Microsoft.Web/connections/azuresentinel",
-                "connectionName": "azuresentinel",
-                "id": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/providers/Microsoft.Web/locations/westus/managedApis/azuresentinel"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('playbook1-ConnectionName'))]",
+                "connectionName": "[parameters('playbook1-ConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('workspace-location'), '/managedApis/', parameters('playbook1-ConnectionName'))]"
               }
             }
           }
@@ -197,7 +225,7 @@
     {
       "type": "Microsoft.Logic/workflows",
       "apiVersion": "2017-07-01",
-      "name": "[variables('playbook2-AzureSentinelConnectionName')]",
+      "name": "[parameters('playbook2-PlaybookName')]",
       "location": "[parameters('workspace-location')]",
       "properties": {
         "state": "Enabled",
@@ -270,7 +298,7 @@
               "inputs": {
                 "body": "@triggerBody()",
                 "headers": {
-                  "Authorization": "__CHANGE_ME__"
+                  "Authorization": "[parameters('playbook2-ForwarderAPIToken')]"
                 },
                 "method": "POST",
                 "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"
@@ -282,13 +310,71 @@
           "$connections": {
             "value": {
               "azuresentinel": {
-                "connectionId": "[parameters('playbook2-connections_azuresentinel_externalid')]",
-                "connectionName": "azuresentinel",
-                "id": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/providers/Microsoft.Web/locations/westus/managedApis/azuresentinel"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('playbook2-ConnectionName'))]",
+                "connectionName": "[parameters('playbook2-ConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('workspace-location'), '/managedApis/', parameters('playbook2-ConnectionName'))]"
               }
             }
           }
         }
+      }
+    },
+    {
+      "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
+      "name": "[concat(parameters('workspace'),'/Microsoft.SecurityInsights/',parameters('analytic1-id'))]",
+      "apiVersion": "2021-03-01-preview",
+      "kind": "Scheduled",
+      "location": "[parameters('workspace-location')]",
+      "properties": {
+        "description": "Test desc",
+        "displayName": "Tanium Threat Response Alerts",
+        "enabled": false,
+        "query": "let cap = (s:string) { strcat(toupper(substring(s,0,1)), substring(s,1))  };\nTaniumThreatResponse_CL\n| extend TaniumUrl = pack(\"computer_name\", Computer_Name_s, \"ip_address\", Computer_IP_s, \"platform\", Match_Details_finding_system_info_platform_s)\n| extend TaniumTHRLabel = strcat(cap(Intel_Type_s), \" - \", cap(Match_Details_match_type_s))\n| where Computer_IP_s !contains \"N/A\"\n",
+        "queryFrequency": "PT5M",
+        "queryPeriod": "PT6M",
+        "severity": "High",
+        "suppressionDuration": "PT1H",
+        "suppressionEnabled": false,
+        "triggerOperator": "GreaterThan",
+        "triggerThreshold": 0,
+        "entityMappings": [
+          {
+            "fieldMappings": [
+              {
+                "columnName": "TaniumUrl",
+                "identifier": "Url"
+              }
+            ],
+            "entityType": "URL"
+          },
+          {
+            "fieldMappings": [
+              {
+                "columnName": "Computer_IP_s",
+                "identifier": "Address"
+              }
+            ],
+            "entityType": "IP"
+          },
+          {
+            "fieldMappings": [
+              {
+                "columnName": "Computer_Name_s",
+                "identifier": "HostName"
+              }
+            ],
+            "entityType": "Host"
+          },
+          {
+            "fieldMappings": [
+              {
+                "columnName": "TaniumTHRLabel",
+                "identifier": "Name"
+              }
+            ],
+            "entityType": "Malware"
+          }
+        ]
       }
     },
     {
@@ -311,7 +397,7 @@
         "support": {
           "name": "Tanium Inc.",
           "email": "support@tanium.com",
-          "tier": "Tanium",
+          "tier": "Partner",
           "link": "https://support.tanium.com"
         },
         "dependencies": {
@@ -319,7 +405,7 @@
           "criteria": [
             {
               "kind": "Workbook",
-              "contentId": "[variables('_TaniumDemoWorkbook_workbook')]",
+              "contentId": "[variables('_TaniumWorkbook_workbook')]",
               "version": "1.0.0"
             },
             {
@@ -330,6 +416,11 @@
             {
               "kind": "Playbook",
               "contentId": "[variables('_playbook2-Tanium-QuarantineHosts')]",
+              "version": "1.0.0"
+            },
+            {
+              "kind": "AnalyticsRule",
+              "contentId": "[variables('_TaniumThreatResponseAlerts_AnalyticalRules')]",
               "version": "1.0.0"
             }
           ]

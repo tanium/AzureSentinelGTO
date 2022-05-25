@@ -5,16 +5,22 @@
     "PlaybookName": {
       "defaultValue": "CollectComplyFindingsTanium",
       "type": "string"
+    },
+    "ForwarderAPIToken": {
+      "defaultValue": "__Change_Me__",
+      "type": "string"
+    },
+    "ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string"
     }
   },
-  "variables": {
-    "AzureSentinelConnectionName": "[concat('azuresentinel-', parameters('PlaybookName'))]"
-  },
+  "variables": {},
   "resources": [
     {
       "type": "Microsoft.Logic/workflows",
       "apiVersion": "2017-07-01",
-      "name": "[variables('AzureSentinelConnectionName')]",
+      "name": "[parameters('PlaybookName')]",
       "location": "[resourceGroup().location]",
       "properties": {
         "state": "Enabled",
@@ -89,7 +95,7 @@
               "inputs": {
                 "body": "@triggerBody()",
                 "headers": {
-                  "Authorization": "__CHANGE_ME__"
+                  "Authorization": "[parameters('ForwarderAPIToken')]"
                 },
                 "method": "POST",
                 "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_comply_findings&trigger=manual_click"
@@ -102,9 +108,9 @@
           "$connections": {
             "value": {
               "azuresentinel": {
-                "connectionId": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/resourceGroups/RG_1/providers/Microsoft.Web/connections/azuresentinel",
-                "connectionName": "azuresentinel",
-                "id": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/providers/Microsoft.Web/locations/westus/managedApis/azuresentinel"
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('ConnectionName'))]",
+                "connectionName": "[parameters('ConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('ConnectionName'))]"
               }
             }
           }

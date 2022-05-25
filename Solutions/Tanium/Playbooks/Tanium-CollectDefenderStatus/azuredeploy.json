@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "PlaybookName": {
-      "defaultValue": "QuarantineHostsTanium",
+      "defaultValue": "CollectDefenderStatusTanium",
       "type": "string"
     },
     "ForwarderAPIToken": {
@@ -98,7 +98,7 @@
                   "Authorization": "[parameters('ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"
+                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_defender_health&trigger=manual_click"
               }
             }
           },
