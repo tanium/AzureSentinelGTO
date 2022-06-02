@@ -341,8 +341,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "TaniumUrl",
-                "identifier": "Url"
+                "identifier": "Url",
+                "columnName": "TaniumUrl"
               }
             ],
             "entityType": "URL"
@@ -350,8 +350,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "Computer_IP_s",
-                "identifier": "Address"
+                "identifier": "Address",
+                "columnName": "Computer_IP_s"
               }
             ],
             "entityType": "IP"
@@ -359,8 +359,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "Computer_Name_s",
-                "identifier": "HostName"
+                "identifier": "HostName",
+                "columnName": "Computer_Name_s"
               }
             ],
             "entityType": "Host"
@@ -368,8 +368,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "TaniumTHRLabel",
-                "identifier": "Name"
+                "identifier": "Name",
+                "columnName": "TaniumTHRLabel"
               }
             ],
             "entityType": "Malware"
