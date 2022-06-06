@@ -329,7 +329,7 @@
         "description": "Test desc",
         "displayName": "Tanium Threat Response Alerts",
         "enabled": false,
-        "query": "let cap = (s:string) { strcat(toupper(substring(s,0,1)), substring(s,1))  };\nTaniumThreatResponse_CL\n| extend TaniumUrl = pack(\"computer_name\", Computer_Name_s, \"ip_address\", Computer_IP_s, \"platform\", Match_Details_finding_system_info_platform_s)\n| extend TaniumTHRLabel = strcat(cap(Intel_Type_s), \" - \", cap(Match_Details_match_type_s))\n| where Computer_IP_s !contains \"N/A\"\n",
+        "query": "let cap = (s:string) { strcat(toupper(substring(s,0,1)), substring(s,1))  };\nTaniumThreatResponse_CL\n| extend TaniumUrl = pack(\"computer_name\", Computer_Name_s, \"ip_address\", Computer_IP_s, \"platform\", Match_Details_finding_system_info_platform_s)\n| extend TaniumTHRLabel = strcat(cap(Intel_Type_s),\" - \", cap(Intel_Name_s), \" - \", cap(Match_Details_match_type_s))\n| where Computer_IP_s !contains \"N/A\"\n",
         "queryFrequency": "PT5M",
         "queryPeriod": "PT6M",
         "severity": "High",
@@ -381,7 +381,7 @@
       "type": "Microsoft.OperationalInsights/workspaces/providers/metadata",
       "apiVersion": "2021-03-01-preview",
       "properties": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "kind": "Solution",
         "contentId": "[variables('_sourceId')]",
         "parentId": "[variables('_sourceId')]",
@@ -406,22 +406,22 @@
             {
               "kind": "Workbook",
               "contentId": "[variables('_TaniumWorkbook_workbook')]",
-              "version": "1.0.0"
+              "version": "1.0.1"
             },
             {
               "kind": "Playbook",
               "contentId": "[variables('_playbook1-Tanium-CollectComplyFindings')]",
-              "version": "1.0.0"
+              "version": "1.0.1"
             },
             {
               "kind": "Playbook",
               "contentId": "[variables('_playbook2-Tanium-QuarantineHosts')]",
-              "version": "1.0.0"
+              "version": "1.0.1"
             },
             {
               "kind": "AnalyticsRule",
               "contentId": "[variables('_TaniumThreatResponseAlerts_AnalyticalRules')]",
-              "version": "1.0.0"
+              "version": "1.0.1"
             }
           ]
         },
