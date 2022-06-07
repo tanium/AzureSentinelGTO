@@ -1,6 +1,6 @@
 id: dd9aa0ff-7ac1-4448-879c-e1a18d5890b4
 name: Tanium Threat Response Alerts
-description: 'Test desc'
+description: 'Alerts from Tanium Thread Response (THR) that can be acted upon by Tanium Sentinel Playbook'
 severity: High
 queryFrequency: 5m
 queryPeriod: 6m

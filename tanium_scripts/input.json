@@ -3,7 +3,7 @@
   "Author": "Ian Hands - ian.hands@tanium.com",
   "Logo": "<img src=\"https://www.tanium.com/wp-content/themes/main/lib/images/header-logo.svg\">",
   "Description": "WIP Sentinel bundle for Tanium",
-  "WorkbookDescription": "Tanium Workbook",
+  "WorkbookDescription": "Tanium main workbook",
   "Workbooks": [
     "Workbooks/TaniumWorkbook.json"
   ],

@@ -48,6 +48,26 @@
           "required": true
         },
         "visible": true
+      },
+      {
+        "name": "taniumserverhostname",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Tanium Server Hostname",
+        "placeholder": "host.example.com",
+        "constraints": {
+          "required": true
+        },
+        "visible": true
+      },
+      {
+        "name": "taniumforwarderapikey",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Tanium Forwarder API Key",
+        "placeholder": "... Tanium forwarder api key...",
+        "constraints": {
+          "required": true
+        },
+        "visible": true
       }
     ],
     "steps": [
@@ -80,7 +100,7 @@
                 "name": "workbook1-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "Tanium Workbook"
+                  "text": "Tanium main workbook"
                 }
               },
               {
@@ -128,7 +148,7 @@
                 "name": "analytic1-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "Test desc"
+                  "text": "Alerts from Tanium Thread Response (THR) that can be acted upon by Tanium Sentinel Playbook"
                 }
               }
             ]
@@ -164,7 +184,7 @@
                 "name": "playbook1-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "This playbook ingests events from Tanium into Log Analytics using the API."
+                  "text": "This playbook uses your Tanium Server to gather Comply failures related to hosts associated with Sentinel Incidents"
                 }
               },
               {
@@ -180,15 +200,27 @@
                 }
               },
               {
-                "name": "playbook1-ForwarderAPIToken",
+                "name": "playbook1-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder A P I Token",
-                "defaultValue": "__Change_Me__",
-                "toolTip": "Please enter Forwarder A P I Token",
+                "label": "Tanium Server Host",
+                "defaultValue": "[basics('taniumserverhostname').value]",
+                "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder A P I Token"
+                  "validationMessage": "Please enter the Tanium Server Host"
+                }
+              },
+              {
+                "name": "playbook1-ForwarderAPIToken",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Forwarder API Token",
+                "defaultValue": "[basics('taniumforwarderapikey').value]",
+                "toolTip": "Please enter Forwarder API Token",
+                "constraints": {
+                  "required": true,
+                  "regex": "[a-z0-9A-Z]{1,256}$",
+                  "validationMessage": "Please enter the Forwarder API Token"
                 }
               },
               {
@@ -214,7 +246,7 @@
                 "name": "playbook2-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "This playbook ingests events from Tanium into Log Analytics using the API."
+                  "text": "This playbook uses your Tanium Server to gather Defender statuses related to hosts associated with Sentinel Incidents"
                 }
               },
               {
@@ -230,15 +262,27 @@
                 }
               },
               {
-                "name": "playbook2-ForwarderAPIToken",
+                "name": "playbook2-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder A P I Token",
-                "defaultValue": "__Change_Me__",
-                "toolTip": "Please enter Forwarder A P I Token",
+                "label": "Tanium Server Host",
+                "defaultValue": "[basics('taniumserverhostname').value]",
+                "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder A P I Token"
+                  "validationMessage": "Please enter the Tanium Server Host"
+                }
+              },
+              {
+                "name": "playbook2-ForwarderAPIToken",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Forwarder API Token",
+                "defaultValue": "[basics('taniumforwarderapikey').value]",
+                "toolTip": "Please enter Forwarder API Token",
+                "constraints": {
+                  "required": true,
+                  "regex": "[a-z0-9A-Z]{1,256}$",
+                  "validationMessage": "Please enter the Forwarder API Token"
                 }
               },
               {
@@ -264,7 +308,7 @@
                 "name": "playbook3-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "This playbook ingests events from Tanium into Log Analytics using the API."
+                  "text": "This playbook uses your Tanium Server to gather SCCM client statuses related to hosts associated with Sentinel Incidents"
                 }
               },
               {
@@ -280,15 +324,27 @@
                 }
               },
               {
-                "name": "playbook3-ForwarderAPIToken",
+                "name": "playbook3-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder A P I Token",
-                "defaultValue": "__Change_Me__",
-                "toolTip": "Please enter Forwarder A P I Token",
+                "label": "Tanium Server Host",
+                "defaultValue": "[basics('taniumserverhostname').value]",
+                "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder A P I Token"
+                  "validationMessage": "Please enter the Tanium Server Host"
+                }
+              },
+              {
+                "name": "playbook3-ForwarderAPIToken",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Forwarder API Token",
+                "defaultValue": "[basics('taniumforwarderapikey').value]",
+                "toolTip": "Please enter Forwarder API Token",
+                "constraints": {
+                  "required": true,
+                  "regex": "[a-z0-9A-Z]{1,256}$",
+                  "validationMessage": "Please enter the Forwarder API Token"
                 }
               },
               {
@@ -314,7 +370,7 @@
                 "name": "playbook4-text",
                 "type": "Microsoft.Common.TextBlock",
                 "options": {
-                  "text": "This playbook ingests events from Tanium into Log Analytics using the API."
+                  "text": "This playbook uses your Tanium Server to quarantine hosts associated with Sentinel Incidents"
                 }
               },
               {
@@ -330,15 +386,27 @@
                 }
               },
               {
-                "name": "playbook4-ForwarderAPIToken",
+                "name": "playbook4-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder A P I Token",
-                "defaultValue": "__Change_Me__",
-                "toolTip": "Please enter Forwarder A P I Token",
+                "label": "Tanium Server Host",
+                "defaultValue": "[basics('taniumserverhostname').value]",
+                "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder A P I Token"
+                  "validationMessage": "Please enter the Tanium Server Host"
+                }
+              },
+              {
+                "name": "playbook4-ForwarderAPIToken",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Forwarder API Token",
+                "defaultValue": "[basics('taniumforwarderapikey').value]",
+                "toolTip": "Please enter Forwarder API Token",
+                "constraints": {
+                  "required": true,
+                  "regex": "[a-z0-9A-Z]{1,256}$",
+                  "validationMessage": "Please enter the Forwarder API Token"
                 }
               },
               {
@@ -364,15 +432,19 @@
       "workspace": "[basics('workspace')]",
       "workbook1-name": "[steps('workbooks').workbook1.workbook1-name]",
       "playbook1-PlaybookName": "[steps('playbooks').playbook1.playbook1-PlaybookName]",
+      "playbook1-TaniumServerHost": "[steps('playbooks').playbook1.playbook1-TaniumServerHost]",
       "playbook1-ForwarderAPIToken": "[steps('playbooks').playbook1.playbook1-ForwarderAPIToken]",
       "playbook1-ConnectionName": "[steps('playbooks').playbook1.playbook1-ConnectionName]",
       "playbook2-PlaybookName": "[steps('playbooks').playbook2.playbook2-PlaybookName]",
+      "playbook2-TaniumServerHost": "[steps('playbooks').playbook2.playbook2-TaniumServerHost]",
       "playbook2-ForwarderAPIToken": "[steps('playbooks').playbook2.playbook2-ForwarderAPIToken]",
       "playbook2-ConnectionName": "[steps('playbooks').playbook2.playbook2-ConnectionName]",
       "playbook3-PlaybookName": "[steps('playbooks').playbook3.playbook3-PlaybookName]",
+      "playbook3-TaniumServerHost": "[steps('playbooks').playbook3.playbook3-TaniumServerHost]",
       "playbook3-ForwarderAPIToken": "[steps('playbooks').playbook3.playbook3-ForwarderAPIToken]",
       "playbook3-ConnectionName": "[steps('playbooks').playbook3.playbook3-ConnectionName]",
       "playbook4-PlaybookName": "[steps('playbooks').playbook4.playbook4-PlaybookName]",
+      "playbook4-TaniumServerHost": "[steps('playbooks').playbook4.playbook4-TaniumServerHost]",
       "playbook4-ForwarderAPIToken": "[steps('playbooks').playbook4.playbook4-ForwarderAPIToken]",
       "playbook4-ConnectionName": "[steps('playbooks').playbook4.playbook4-ConnectionName]"
     }

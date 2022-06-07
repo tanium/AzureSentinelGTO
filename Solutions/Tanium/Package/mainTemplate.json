@@ -59,8 +59,13 @@
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
+    "playbook1-TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string",
+      "minLength": 1
+    },
     "playbook1-ForwarderAPIToken": {
-      "defaultValue": "__Change_Me__",
+      "defaultValue": "__Change_Me_APIToken__",
       "type": "string",
       "minLength": 1
     },
@@ -77,8 +82,13 @@
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
+    "playbook2-TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string",
+      "minLength": 1
+    },
     "playbook2-ForwarderAPIToken": {
-      "defaultValue": "__Change_Me__",
+      "defaultValue": "__Change_Me_APIToken__",
       "type": "string",
       "minLength": 1
     },
@@ -95,8 +105,13 @@
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
+    "playbook3-TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string",
+      "minLength": 1
+    },
     "playbook3-ForwarderAPIToken": {
-      "defaultValue": "__Change_Me__",
+      "defaultValue": "__Change_Me_APIToken__",
       "type": "string",
       "minLength": 1
     },
@@ -113,8 +128,13 @@
         "description": "Resource name for the logic app playbook.  No spaces are allowed"
       }
     },
+    "playbook4-TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string",
+      "minLength": 1
+    },
     "playbook4-ForwarderAPIToken": {
-      "defaultValue": "__Change_Me__",
+      "defaultValue": "__Change_Me_APIToken__",
       "type": "string",
       "minLength": 1
     },
@@ -244,7 +264,7 @@
                   "Authorization": "[parameters('playbook1-ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_comply_findings&trigger=manual_click"
+                "uri": "[concat('https://', parameters('playbook1-TaniumServerHost'), '/playbook?type=add_comply_findings')]"
               }
             }
           }
@@ -341,7 +361,7 @@
                   "Authorization": "[parameters('playbook2-ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_defender_health&trigger=manual_click"
+                "uri": "[concat('https://', parameters('playbook2-TaniumServerHost'), '/playbook?type=add_defender_health')]"
               }
             }
           }
@@ -438,7 +458,7 @@
                   "Authorization": "[parameters('playbook3-ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_sccm_health&trigger=manual_click"
+                "uri": "[concat('https://', parameters('playbook3-TaniumServerHost'), '/playbook?type=add_sccm_health')]"
               }
             }
           }
@@ -535,7 +555,7 @@
                   "Authorization": "[parameters('playbook4-ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"
+                "uri": "[concat('https://', parameters('playbook4-TaniumServerHost'), '/playbook?type=quarantine')]"
               }
             }
           }
@@ -560,7 +580,7 @@
       "kind": "Scheduled",
       "location": "[parameters('workspace-location')]",
       "properties": {
-        "description": "Test desc",
+        "description": "Alerts from Tanium Thread Response (THR) that can be acted upon by Tanium Sentinel Playbook",
         "displayName": "Tanium Threat Response Alerts",
         "enabled": false,
         "query": "let cap = (s:string) { strcat(toupper(substring(s,0,1)), substring(s,1))  };\nTaniumThreatResponse_CL\n| extend TaniumUrl = pack(\"computer_name\", Computer_Name_s, \"ip_address\", Computer_IP_s, \"platform\", Match_Details_finding_system_info_platform_s)\n| extend TaniumTHRLabel = strcat(cap(Intel_Type_s),\" - \", cap(Intel_Name_s), \" - \", cap(Match_Details_match_type_s))\n| where Computer_IP_s !contains \"N/A\"\n",
@@ -575,8 +595,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "TaniumUrl",
-                "identifier": "Url"
+                "identifier": "Url",
+                "columnName": "TaniumUrl"
               }
             ],
             "entityType": "URL"
@@ -584,8 +604,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "Computer_IP_s",
-                "identifier": "Address"
+                "identifier": "Address",
+                "columnName": "Computer_IP_s"
               }
             ],
             "entityType": "IP"
@@ -593,8 +613,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "Computer_Name_s",
-                "identifier": "HostName"
+                "identifier": "HostName",
+                "columnName": "Computer_Name_s"
               }
             ],
             "entityType": "Host"
@@ -602,8 +622,8 @@
           {
             "fieldMappings": [
               {
-                "columnName": "TaniumTHRLabel",
-                "identifier": "Name"
+                "identifier": "Name",
+                "columnName": "TaniumTHRLabel"
               }
             ],
             "entityType": "Malware"

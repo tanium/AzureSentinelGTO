@@ -8,7 +8,8 @@ do
   cat $var |
     jq '.parameters = {}' |
     jq '.parameters .PlaybookName = { "defaultValue": "'"$NAME"'", "type": "string" }' |
-    jq '.parameters .ForwarderAPIToken = { "defaultValue": "__Change_Me__", "type": "string" }' |
+    jq '.parameters .TaniumServerHost = { "defaultValue": "__Change_Me_Host__", "type": "string" }' |
+    jq '.parameters .ForwarderAPIToken = { "defaultValue": "__Change_Me_APIToken__", "type": "string" }' |
     jq 'del(.resources[0] .tags)' |
     jq 'del(.variables .AzureSentinelConnectionName)' |
     jq 'del(.variables .ConnectionName)' |

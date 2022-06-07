@@ -30,10 +30,11 @@ cat "$GEN_FILE" |
       }] ' |
   sed -r \
     -e 's/A P I/API/g' \
-    -e 's/__Change_Me__/[basics('\'taniumforwarderapikey\'').value]/' > "$NEW_FILE"
+    -e 's/__Change_Me_Host__/[basics('\'"taniumserverhostname"\'').value]/' \
+    -e 's/__Change_Me_APIToken__/[basics('\'"taniumforwarderapikey"\'').value]/' > "$NEW_FILE"
 
 diff -u  "$ORIG_FILE" "$NEW_FILE" || true
-
+cp "$NEW_FILE" "$GEN_FILE"
 cp "$NEW_FILE" ./createUiDefinition.json
 cp "$ZIP_FILE" ./.tmp.zip
 zip .tmp.zip createUiDefinition.json

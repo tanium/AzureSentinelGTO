@@ -1,13 +1,20 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "comments": "This playbook uses your Tanium Server to close THR Alerts associated with Sentinel Incidents"
+  },
   "parameters": {
     "PlaybookName": {
       "defaultValue": "CloseTHRAlertTanium",
       "type": "string"
     },
+    "TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string"
+    },
     "ForwarderAPIToken": {
-      "defaultValue": "__Change_Me__",
+      "defaultValue": "__Change_Me_APIToken__",
       "type": "string"
     },
     "ConnectionName": {
@@ -98,7 +105,7 @@
                   "Authorization": "[parameters('ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=close_thr_alert&trigger=manual_click"
+                "uri": "[concat('https://', parameters('TaniumServerHost'), '/playbook?type=close_thr_alert')]"
               }
             }
           },
