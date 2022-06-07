@@ -9,6 +9,8 @@
   ],
   "Playbooks": [
     "Playbooks/Tanium-CollectComplyFindings/azuredeploy.json",
+    "Playbooks/Tanium-CollectDefenderStatus/azuredeploy.json",
+    "Playbooks/Tanium-CollectSCCMClientStatus/azuredeploy.json",
     "Playbooks/Tanium-QuarantineHosts/azuredeploy.json"
   ],
   "Analytic Rules": [

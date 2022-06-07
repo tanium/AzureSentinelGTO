@@ -70,7 +70,7 @@
       "minLength": 1
     },
     "playbook2-PlaybookName": {
-      "defaultValue": "QuarantineHostsTanium",
+      "defaultValue": "CollectDefenderStatusTanium",
       "type": "string",
       "minLength": 1,
       "metadata": {
@@ -83,6 +83,42 @@
       "minLength": 1
     },
     "playbook2-ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook3-PlaybookName": {
+      "defaultValue": "CollectSCCMClientStatusTanium",
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Resource name for the logic app playbook.  No spaces are allowed"
+      }
+    },
+    "playbook3-ForwarderAPIToken": {
+      "defaultValue": "__Change_Me__",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook3-ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook4-PlaybookName": {
+      "defaultValue": "QuarantineHostsTanium",
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "Resource name for the logic app playbook.  No spaces are allowed"
+      }
+    },
+    "playbook4-ForwarderAPIToken": {
+      "defaultValue": "__Change_Me__",
+      "type": "string",
+      "minLength": 1
+    },
+    "playbook4-ConnectionName": {
       "defaultValue": "azuresentinel",
       "type": "string",
       "minLength": 1
@@ -103,8 +139,12 @@
     "_workbook-source": "[variables('workbook-source')]",
     "playbook1-Tanium-CollectComplyFindings": "playbook1-Tanium-CollectComplyFindings",
     "_playbook1-Tanium-CollectComplyFindings": "[variables('playbook1-Tanium-CollectComplyFindings')]",
-    "playbook2-Tanium-QuarantineHosts": "playbook2-Tanium-QuarantineHosts",
-    "_playbook2-Tanium-QuarantineHosts": "[variables('playbook2-Tanium-QuarantineHosts')]",
+    "playbook2-Tanium-CollectDefenderStatus": "playbook2-Tanium-CollectDefenderStatus",
+    "_playbook2-Tanium-CollectDefenderStatus": "[variables('playbook2-Tanium-CollectDefenderStatus')]",
+    "playbook3-Tanium-CollectSCCMClientStatus": "playbook3-Tanium-CollectSCCMClientStatus",
+    "_playbook3-Tanium-CollectSCCMClientStatus": "[variables('playbook3-Tanium-CollectSCCMClientStatus')]",
+    "playbook4-Tanium-QuarantineHosts": "playbook4-Tanium-QuarantineHosts",
+    "_playbook4-Tanium-QuarantineHosts": "[variables('playbook4-Tanium-QuarantineHosts')]",
     "TaniumThreatResponseAlerts_AnalyticalRules": "TaniumThreatResponseAlerts_AnalyticalRules",
     "_TaniumThreatResponseAlerts_AnalyticalRules": "[variables('TaniumThreatResponseAlerts_AnalyticalRules')]",
     "sourceId": "taniuminc1646329360287.azure-sentinel-solution-tanium",
@@ -301,7 +341,7 @@
                   "Authorization": "[parameters('playbook2-ForwarderAPIToken')]"
                 },
                 "method": "POST",
-                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"
+                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_defender_health&trigger=manual_click"
               }
             }
           }
@@ -313,6 +353,200 @@
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('playbook2-ConnectionName'))]",
                 "connectionName": "[parameters('playbook2-ConnectionName')]",
                 "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('workspace-location'), '/managedApis/', parameters('playbook2-ConnectionName'))]"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('playbook3-PlaybookName')]",
+      "location": "[parameters('workspace-location')]",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.@{variables('azureManagementUrl')}/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "$connections": {
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "Microsoft_Sentinel_incident": {
+              "type": "ApiConnectionWebhook",
+              "inputs": {
+                "body": {
+                  "callback_url": "@{listCallbackUrl()}"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "path": "/incident-creation"
+              }
+            }
+          },
+          "actions": {
+            "Add_comment_to_incident_(V3)": {
+              "runAfter": {
+                "HTTP": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection",
+              "inputs": {
+                "body": {
+                  "incidentArmId": "@triggerBody()?['object']?['id']",
+                  "message": "<p>@{body('HTTP')}</p>"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/Incidents/Comment"
+              }
+            },
+            "Entities_-_Get_Hosts": {
+              "type": "ApiConnection",
+              "inputs": {
+                "body": "@triggerBody()?['object']?['properties']?['relatedEntities']",
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/entities/host"
+              }
+            },
+            "HTTP": {
+              "runAfter": {
+                "Entities_-_Get_Hosts": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Http",
+              "inputs": {
+                "body": "@triggerBody()",
+                "headers": {
+                  "Authorization": "[parameters('playbook3-ForwarderAPIToken')]"
+                },
+                "method": "POST",
+                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=add_sccm_health&trigger=manual_click"
+              }
+            }
+          }
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azuresentinel": {
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('playbook3-ConnectionName'))]",
+                "connectionName": "[parameters('playbook3-ConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('workspace-location'), '/managedApis/', parameters('playbook3-ConnectionName'))]"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('playbook4-PlaybookName')]",
+      "location": "[parameters('workspace-location')]",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.@{variables('azureManagementUrl')}/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "$connections": {
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "Microsoft_Sentinel_incident": {
+              "type": "ApiConnectionWebhook",
+              "inputs": {
+                "body": {
+                  "callback_url": "@{listCallbackUrl()}"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "path": "/incident-creation"
+              }
+            }
+          },
+          "actions": {
+            "Add_comment_to_incident_(V3)": {
+              "runAfter": {
+                "HTTP": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection",
+              "inputs": {
+                "body": {
+                  "incidentArmId": "@triggerBody()?['object']?['id']",
+                  "message": "<p>@{body('HTTP')}</p>"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/Incidents/Comment"
+              }
+            },
+            "Entities_-_Get_Hosts": {
+              "type": "ApiConnection",
+              "inputs": {
+                "body": "@triggerBody()?['object']?['properties']?['relatedEntities']",
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/entities/host"
+              }
+            },
+            "HTTP": {
+              "runAfter": {
+                "Entities_-_Get_Hosts": [
+                  "Succeeded"
+                ]
+              },
+              "type": "Http",
+              "inputs": {
+                "body": "@triggerBody()",
+                "headers": {
+                  "Authorization": "[parameters('playbook4-ForwarderAPIToken')]"
+                },
+                "method": "POST",
+                "uri": "https://sentinelforwarder.centralus.cloudapp.azure.com/playbook?type=quarantine&trigger=manual_click"
+              }
+            }
+          }
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azuresentinel": {
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('playbook4-ConnectionName'))]",
+                "connectionName": "[parameters('playbook4-ConnectionName')]",
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('workspace-location'), '/managedApis/', parameters('playbook4-ConnectionName'))]"
               }
             }
           }
@@ -339,40 +573,40 @@
         "triggerThreshold": 0,
         "entityMappings": [
           {
+            "entityType": "URL",
             "fieldMappings": [
               {
-                "identifier": "Url",
-                "columnName": "TaniumUrl"
+                "columnName": "TaniumUrl",
+                "identifier": "Url"
               }
-            ],
-            "entityType": "URL"
+            ]
           },
           {
+            "entityType": "IP",
             "fieldMappings": [
               {
-                "identifier": "Address",
-                "columnName": "Computer_IP_s"
+                "columnName": "Computer_IP_s",
+                "identifier": "Address"
               }
-            ],
-            "entityType": "IP"
+            ]
           },
           {
+            "entityType": "Host",
             "fieldMappings": [
               {
-                "identifier": "HostName",
-                "columnName": "Computer_Name_s"
+                "columnName": "Computer_Name_s",
+                "identifier": "HostName"
               }
-            ],
-            "entityType": "Host"
+            ]
           },
           {
+            "entityType": "Malware",
             "fieldMappings": [
               {
-                "identifier": "Name",
-                "columnName": "TaniumTHRLabel"
+                "columnName": "TaniumTHRLabel",
+                "identifier": "Name"
               }
-            ],
-            "entityType": "Malware"
+            ]
           }
         ]
       }
@@ -415,7 +649,17 @@
             },
             {
               "kind": "Playbook",
-              "contentId": "[variables('_playbook2-Tanium-QuarantineHosts')]",
+              "contentId": "[variables('_playbook2-Tanium-CollectDefenderStatus')]",
+              "version": "1.0.1"
+            },
+            {
+              "kind": "Playbook",
+              "contentId": "[variables('_playbook3-Tanium-CollectSCCMClientStatus')]",
+              "version": "1.0.1"
+            },
+            {
+              "kind": "Playbook",
+              "contentId": "[variables('_playbook4-Tanium-QuarantineHosts')]",
               "version": "1.0.1"
             },
             {
