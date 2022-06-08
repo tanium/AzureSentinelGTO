@@ -9,9 +9,9 @@ ZIP_FILE="Solutions/Tanium/Package/1.0.1.zip"
 cat "$GEN_FILE" | jq > "$ORIG_FILE"
 cat "$GEN_FILE" |
   jq '.parameters .basics += [{
-        "name": "taniumserverhostname",
+        "name": "taniumforwarderhostname",
         "type": "Microsoft.Common.TextBox",
-        "label": "Tanium Server Hostname",
+        "label": "Tanium Forwarder Hostname",
         "placeholder": "host.example.com",
         "constraints": {
           "required": true
@@ -30,7 +30,7 @@ cat "$GEN_FILE" |
       }] ' |
   sed -r \
     -e 's/A P I/API/g' \
-    -e 's/__Change_Me_Host__/[basics('\'"taniumserverhostname"\'').value]/' \
+    -e 's/__Change_Me_Host__/[basics('\'"taniumforwarderhostname"\'').value]/' \
     -e 's/__Change_Me_APIToken__/[basics('\'"taniumforwarderapikey"\'').value]/' > "$NEW_FILE"
 
 diff -u  "$ORIG_FILE" "$NEW_FILE" || true

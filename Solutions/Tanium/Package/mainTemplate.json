@@ -593,40 +593,40 @@
         "triggerThreshold": 0,
         "entityMappings": [
           {
+            "entityType": "URL",
             "fieldMappings": [
               {
-                "identifier": "Url",
-                "columnName": "TaniumUrl"
+                "columnName": "TaniumUrl",
+                "identifier": "Url"
               }
-            ],
-            "entityType": "URL"
+            ]
           },
           {
+            "entityType": "IP",
             "fieldMappings": [
               {
-                "identifier": "Address",
-                "columnName": "Computer_IP_s"
+                "columnName": "Computer_IP_s",
+                "identifier": "Address"
               }
-            ],
-            "entityType": "IP"
+            ]
           },
           {
+            "entityType": "Host",
             "fieldMappings": [
               {
-                "identifier": "HostName",
-                "columnName": "Computer_Name_s"
+                "columnName": "Computer_Name_s",
+                "identifier": "HostName"
               }
-            ],
-            "entityType": "Host"
+            ]
           },
           {
+            "entityType": "Malware",
             "fieldMappings": [
               {
-                "identifier": "Name",
-                "columnName": "TaniumTHRLabel"
+                "columnName": "TaniumTHRLabel",
+                "identifier": "Name"
               }
-            ],
-            "entityType": "Malware"
+            ]
           }
         ]
       }
