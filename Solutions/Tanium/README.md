@@ -52,3 +52,16 @@ Tanium Sentinel integration packages help you import / visualize Tanium data and
 
 - TODO: Walk customer through setting up connection in Logic App
 - TODO: Automate this
+
+
+## Developer notes
+Prerequisites:
+
+- Install power shell core `brew install --cask powershell`
+- Install power shell YAML parser `Install-Module powershell-yaml`
+- Install make `brew install make`
+
+Building a solution:
+- Start dev server `make dev-server` # separate shell
+- Optionally edit `./tanium-scripts/input.json`
+- Build Solution `make`
