@@ -1,5 +1,6 @@
 {
   "version": "Notebook/1.0",
+  "dependsOn": "[resourceId('Microsoft.Web/connections', parameters('ConnectionName'))]",
   "items": [
     {
       "type": 11,
@@ -8,7 +9,6 @@
         "style": "tabs",
         "links": [
           {
-            "id": "786ffe19-a17d-4ca9-9355-f97406ae048f",
             "cellValue": "selectedTab",
             "linkTarget": "parameter",
             "linkLabel": "Comply",
@@ -17,7 +17,6 @@
             "style": "link"
           },
           {
-            "id": "caed0c0c-5247-40f7-ac0d-745d858539ce",
             "cellValue": "selectedTab",
             "linkTarget": "parameter",
             "linkLabel": "Patch",
@@ -25,7 +24,6 @@
             "style": "link"
           },
           {
-            "id": "efd238ee-2305-4384-a38c-a96d850ab4c9",
             "cellValue": "selectedTab",
             "linkTarget": "parameter",
             "linkLabel": "Discover",

@@ -22,7 +22,7 @@ cat "$GEN_FILE" |
         "name": "taniumforwarderapikey",
         "type": "Microsoft.Common.TextBox",
         "label": "Tanium Forwarder API Key",
-        "placeholder": "... Tanium forwarder api key...",
+        "placeholder": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
         "constraints": {
           "required": true
         },

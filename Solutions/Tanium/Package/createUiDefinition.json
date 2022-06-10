@@ -48,26 +48,6 @@
           "required": true
         },
         "visible": true
-      },
-      {
-        "name": "taniumforwarderhostname",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Tanium Forwarder Hostname",
-        "placeholder": "host.example.com",
-        "constraints": {
-          "required": true
-        },
-        "visible": true
-      },
-      {
-        "name": "taniumforwarderapikey",
-        "type": "Microsoft.Common.TextBox",
-        "label": "Tanium Forwarder API Key",
-        "placeholder": "... Tanium forwarder api key...",
-        "constraints": {
-          "required": true
-        },
-        "visible": true
       }
     ],
     "steps": [
@@ -203,7 +183,7 @@
                 "name": "playbook1-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Tanium Server Host",
-                "defaultValue": "[basics('taniumforwarderhostname').value]",
+                "defaultValue": "__Change_Me_Host__",
                 "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
@@ -214,20 +194,20 @@
               {
                 "name": "playbook1-ForwarderAPIToken",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder API Token",
-                "defaultValue": "[basics('taniumforwarderapikey').value]",
-                "toolTip": "Please enter Forwarder API Token",
+                "label": "Forwarder A P I Token",
+                "defaultValue": "__Change_Me_APIToken__",
+                "toolTip": "Please enter Forwarder A P I Token",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder API Token"
+                  "validationMessage": "Please enter the Forwarder A P I Token"
                 }
               },
               {
                 "name": "playbook1-ConnectionName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Connection Name",
-                "defaultValue": "azuresentinel",
+                "defaultValue": "taniumsentinel",
                 "toolTip": "Please enter Connection Name",
                 "constraints": {
                   "required": true,
@@ -265,7 +245,7 @@
                 "name": "playbook2-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Tanium Server Host",
-                "defaultValue": "[basics('taniumforwarderhostname').value]",
+                "defaultValue": "__Change_Me_Host__",
                 "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
@@ -276,20 +256,20 @@
               {
                 "name": "playbook2-ForwarderAPIToken",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder API Token",
-                "defaultValue": "[basics('taniumforwarderapikey').value]",
-                "toolTip": "Please enter Forwarder API Token",
+                "label": "Forwarder A P I Token",
+                "defaultValue": "__Change_Me_APIToken__",
+                "toolTip": "Please enter Forwarder A P I Token",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder API Token"
+                  "validationMessage": "Please enter the Forwarder A P I Token"
                 }
               },
               {
                 "name": "playbook2-ConnectionName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Connection Name",
-                "defaultValue": "azuresentinel",
+                "defaultValue": "taniumsentinel",
                 "toolTip": "Please enter Connection Name",
                 "constraints": {
                   "required": true,
@@ -327,7 +307,7 @@
                 "name": "playbook3-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Tanium Server Host",
-                "defaultValue": "[basics('taniumforwarderhostname').value]",
+                "defaultValue": "__Change_Me_Host__",
                 "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
@@ -338,20 +318,20 @@
               {
                 "name": "playbook3-ForwarderAPIToken",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder API Token",
-                "defaultValue": "[basics('taniumforwarderapikey').value]",
-                "toolTip": "Please enter Forwarder API Token",
+                "label": "Forwarder A P I Token",
+                "defaultValue": "__Change_Me_APIToken__",
+                "toolTip": "Please enter Forwarder A P I Token",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder API Token"
+                  "validationMessage": "Please enter the Forwarder A P I Token"
                 }
               },
               {
                 "name": "playbook3-ConnectionName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Connection Name",
-                "defaultValue": "azuresentinel",
+                "defaultValue": "taniumsentinel",
                 "toolTip": "Please enter Connection Name",
                 "constraints": {
                   "required": true,
@@ -389,7 +369,7 @@
                 "name": "playbook4-TaniumServerHost",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Tanium Server Host",
-                "defaultValue": "[basics('taniumforwarderhostname').value]",
+                "defaultValue": "__Change_Me_Host__",
                 "toolTip": "Please enter Tanium Server Host",
                 "constraints": {
                   "required": true,
@@ -400,20 +380,20 @@
               {
                 "name": "playbook4-ForwarderAPIToken",
                 "type": "Microsoft.Common.TextBox",
-                "label": "Forwarder API Token",
-                "defaultValue": "[basics('taniumforwarderapikey').value]",
-                "toolTip": "Please enter Forwarder API Token",
+                "label": "Forwarder A P I Token",
+                "defaultValue": "__Change_Me_APIToken__",
+                "toolTip": "Please enter Forwarder A P I Token",
                 "constraints": {
                   "required": true,
                   "regex": "[a-z0-9A-Z]{1,256}$",
-                  "validationMessage": "Please enter the Forwarder API Token"
+                  "validationMessage": "Please enter the Forwarder A P I Token"
                 }
               },
               {
                 "name": "playbook4-ConnectionName",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Connection Name",
-                "defaultValue": "azuresentinel",
+                "defaultValue": "taniumsentinel",
                 "toolTip": "Please enter Connection Name",
                 "constraints": {
                   "required": true,

@@ -18,7 +18,7 @@
       "type": "string"
     },
     "ConnectionName": {
-      "defaultValue": "azuresentinel",
+      "defaultValue": "taniumsentinel",
       "type": "string"
     }
   },
@@ -124,7 +124,7 @@
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+        "[resourceId('Microsoft.Web/connections', parameters('ConnectionName'))]"
       ]
     }
   ]
