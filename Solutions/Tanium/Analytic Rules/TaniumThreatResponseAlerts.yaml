@@ -10,7 +10,7 @@ tactics: []
 query: |
   let cap = (s:string) { strcat(toupper(substring(s,0,1)), substring(s,1))  };
   TaniumThreatResponse_CL
-  | extend TaniumUrl = pack("computer_name", Computer_Name_s, "ip_address", Computer_IP_s, "platform", Match_Details_finding_system_info_platform_s)
+  | extend TaniumUrl = pack("computer_name", Computer_Name_s, "alert_guid", Alert_Id_g, "ip_address", Computer_IP_s, "platform", Match_Details_finding_system_info_platform_s)
   | extend TaniumTHRLabel = strcat(cap(Intel_Type_s)," - ", cap(Intel_Name_s), " - ", cap(Match_Details_match_type_s))
   | where Computer_IP_s !contains "N/A"
 entityMappings:
