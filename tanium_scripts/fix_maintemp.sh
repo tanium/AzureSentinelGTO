@@ -11,34 +11,9 @@ ZIP_FILE="Solutions/Tanium/Package/1.0.1.zip"
 cat "$GEN_FILE" | jq > "$ORIG_FILE"
 cat "$GEN_FILE" |
   jq '.resources += [
-        {
-            "type": "Microsoft.Web/connections",
-            "apiVersion": "2016-06-01",
-            "name": "azuresentinel",
-            "location": "[resourceGroup().location]",
-            "kind": "V1",
-            "properties": {
-                "displayName": "azuresentinel",
-                "customParameterValues": {},
-                "parameterValueType": "Alternative",
-                "api": {
-                   "id": "[concat('"'"'/subscriptions/'"'"', subscription().subscriptionId, '"'"'/providers/Microsoft.Web/locations/'"'"', resourceGroup().location, '"'"'/managedApis/azuresentinel'"'"')]"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Web/connections",
-            "apiVersion": "2016-06-01",
-            "name": "taniumsentinel",
-            "location": "[resourceGroup().location]",
-            "properties": {
-                "displayName": "Tanium Sentinel API Connection",
-                "customParameterValues": {},
-                "api": {
-                    "id": "[concat('"'"'/subscriptions/'"'"', subscription().subscriptionId, '"'"'/providers/Microsoft.Web/locations/'"'"', resourceGroup().location, '"'"'/managedApis/azuresentinel'"'"')]"
-                }
-            }
-        }
+'"`cat ./Solutions/Tanium/Data/AzureSentinelConnector.json`"',
+'"`cat ./Solutions/Tanium/Data/TaniumSentinelConnector.json`"',
+'"`cat ./Solutions/Tanium/Data/AddCommentLA.json`"'
   ]' > "$NEW_FILE"
 
 diff -u  "$ORIG_FILE" "$NEW_FILE" || true

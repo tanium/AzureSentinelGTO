@@ -117,7 +117,7 @@
               "azuresentinel": {
                 "connectionId": "[resourceId('Microsoft.Web/connections', parameters('ConnectionName'))]",
                 "connectionName": "[parameters('ConnectionName')]",
-                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/', parameters('ConnectionName'))]"
+                "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azuresentinel')]"
               }
             }
           }
