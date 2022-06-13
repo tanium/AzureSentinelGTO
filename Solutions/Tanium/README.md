@@ -58,7 +58,7 @@ Tanium Sentinel integration packages help you import / visualize Tanium data and
 Prerequisites:
 
 - Install power shell core `brew install --cask powershell`
-- Install power shell YAML parser `Install-Module powershell-yaml`
+- Install power shell YAML parser `Install-Module powershell-yaml` (run `pwsh` first to enter the powershell shell)
 - Install make `brew install make`
 
 Building a solution:

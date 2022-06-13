@@ -1,0 +1,125 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "PlaybookName": {
+      "defaultValue": "AddCommentTanium",
+      "type": "string"
+    },
+    "TaniumServerHost": {
+      "defaultValue": "__Change_Me_Host__",
+      "type": "string"
+    },
+    "ForwarderAPIToken": {
+      "defaultValue": "__Change_Me_APIToken__",
+      "type": "string"
+    },
+    "ConnectionName": {
+      "defaultValue": "azuresentinel",
+      "type": "string"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Logic/workflows",
+      "apiVersion": "2017-07-01",
+      "name": "[parameters('PlaybookName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
+          "triggers": {
+            "manual": {
+              "type": "Request",
+              "kind": "Http",
+              "inputs": {
+                "method": "POST",
+                "schema": {
+                  "properties": {
+                    "arm_id": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "actions": {
+            "Add_comment_to_incident_(V3)": {
+              "runAfter": {
+                "Get_incident": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection",
+              "inputs": {
+                "body": {
+                  "incidentArmId": "@body('Get_incident')?['id']",
+                  "message": "<p>@{triggerBody()?['message']}</p>"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/Incidents/Comment"
+              }
+            },
+            "Get_incident": {
+              "runAfter": {},
+              "type": "ApiConnection",
+              "inputs": {
+                "body": {
+                  "incidentArmId": "@triggerBody()?['arm_id']"
+                },
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azuresentinel']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/Incidents"
+              }
+            },
+            "HTTP": {
+              "inputs": {
+                "headers": {
+                  "Authorization": "[parameters('ForwarderAPIToken')]"
+                }
+              }
+            }
+          },
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azuresentinel": {
+                "connectionId": "[parameters('connections_azuresentinel_1_externalid')]",
+                "connectionName": "azuresentinel-1",
+                "id": "/subscriptions/8cacf840-893d-4966-8f82-768f12f19076/providers/Microsoft.Web/locations/westus/managedApis/azuresentinel"
+              }
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+      ]
+    }
+  ]
+}

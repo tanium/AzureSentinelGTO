@@ -280,7 +280,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+      ]
     },
     {
       "type": "Microsoft.Logic/workflows",
@@ -377,7 +380,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+      ]
     },
     {
       "type": "Microsoft.Logic/workflows",
@@ -474,7 +480,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+      ]
     },
     {
       "type": "Microsoft.Logic/workflows",
@@ -571,7 +580,10 @@
             }
           }
         }
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', variables('tanium-sentinel-connection'))]"
+      ]
     },
     {
       "type": "Microsoft.OperationalInsights/workspaces/providers/alertRules",
@@ -593,40 +605,40 @@
         "triggerThreshold": 0,
         "entityMappings": [
           {
-            "entityType": "URL",
             "fieldMappings": [
               {
                 "columnName": "TaniumUrl",
                 "identifier": "Url"
               }
-            ]
+            ],
+            "entityType": "URL"
           },
           {
-            "entityType": "IP",
             "fieldMappings": [
               {
                 "columnName": "Computer_IP_s",
                 "identifier": "Address"
               }
-            ]
+            ],
+            "entityType": "IP"
           },
           {
-            "entityType": "Host",
             "fieldMappings": [
               {
                 "columnName": "Computer_Name_s",
                 "identifier": "HostName"
               }
-            ]
+            ],
+            "entityType": "Host"
           },
           {
-            "entityType": "Malware",
             "fieldMappings": [
               {
                 "columnName": "TaniumTHRLabel",
                 "identifier": "Name"
               }
-            ]
+            ],
+            "entityType": "Malware"
           }
         ]
       }
